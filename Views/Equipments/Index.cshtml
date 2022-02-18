@@ -1,0 +1,115 @@
+﻿@model Iurec_Alexandra_Proiect_Master.Models.BeautySalonViewModels.EquipmentIndexData
+@{
+    ViewData["Title"] = "Equipments";
+}
+
+<h2>Equipments</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Equipment Name</th>
+            <th>Year of Manufacture </th>
+            <th>Producer</th>
+            <th>Beauty Services</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Equipments)
+        {
+            string selectedRow = "";
+            if (item.EquipmentID == (int?)ViewData["EquipmentID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.EquipmentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManufactureYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producer)
+                </td>
+
+                <td>
+                    @{
+                        foreach (var beautyService in item.BookedEquipments)
+                        {
+                            @beautyService.BeautyService.BeautyServiceID @: @beautyService.BeautyService.Title <br />
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.EquipmentID">Select</a> |
+                    <a asp-action="Edit" asp-route-id="@item.EquipmentID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.EquipmentID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EquipmentID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.BeautyServices != null)
+{
+    <h3>Beauty Services which use selected equipment</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Price</th>
+        </tr>
+        @foreach (var item in Model.BeautyServices)
+        {
+            string selectedRow = "";
+            if (item.BeautyServiceID == (int?)ViewData["BeautyServiceID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.ActionLink("Select", "Index", new { beautyServiceID = item.BeautyServiceID })
+                </td>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Description
+                </td>
+                <td>
+                    @item.Price
+                </td>
+            </tr>
+        }
+    </table>
+}
+@if (Model.Appointments != null)
+{
+<h3>
+    Appointments for selected beauty service
+</h3>
+    <table class="table">
+        <tr>
+            <th>Employee name</th>
+            <th>Appointment Date</th>
+        </tr>
+        @foreach (var item in Model.Appointments)
+        {
+            <tr>
+                <td>
+                    @item.Employee.Name
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppointmentDate)
+                </td>
+            </tr>
+        }
+    </table>
+}

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Iurec_Alexandra_Proiect_Master.Models.BeautySalonViewModels.AppointmentGroup>
+@{
+    ViewData["Title"] = "Scheduled Beauty Services Statistics";
+}
+<h2>Scheduled Beauty Services Statistics</h2>
+<table>
+    <tr>
+        <th>
+            Appointment Date
+        </th>
+        <th></th>
+        <th></th>
+        <th>
+            Scheduled Beauty Services
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppointmentDate)
+            </td>
+            <td></td>
+            <td></td>
+            <td>
+                @item.BeautyServiceCount
+            </td>
+        </tr>
+    }
+</table>

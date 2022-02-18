@@ -1,0 +1,70 @@
+﻿@model Iurec_Alexandra_Proiect_Master.Models.Equipment
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Equipment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EquipmentID" />
+            <div class="form-group">
+                <label asp-for="EquipmentName" class="control-label"></label>
+                <input asp-for="EquipmentName" class="form-control" />
+                <span asp-validation-for="EquipmentName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManufactureYear" class="control-label"></label>
+                <input asp-for="ManufactureYear" class="form-control" />
+                <span asp-validation-for="ManufactureYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Producer" class="control-label"></label>
+                <input asp-for="Producer" class="form-control" />
+                <span asp-validation-for="Producer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+                                List<Iurec_Alexandra_Proiect_Master.Models.BeautySalonViewModels.BookedEquipmentData> beautyServices = ViewBag.BeautyServices;
+                                foreach (var beautyService in beautyServices)
+                                {
+                                    if (cnt++ % 2 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedBeautyServices"
+                                               value="@beautyService.BeautyServiceID"
+                                               @(Html.Raw(beautyService.IsBooked ? "checked=\"checked\"" : "")) />
+                                        @beautyService.BeautyServiceID @: @beautyService.Title
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

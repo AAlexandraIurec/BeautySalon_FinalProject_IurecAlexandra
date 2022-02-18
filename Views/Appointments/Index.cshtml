@@ -1,0 +1,65 @@
+﻿
+
+@model PaginatedList<Iurec_Alexandra_Proiect_Master.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Index";
+   
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Appointment Date
+            </th>
+            <th>
+                Employee
+            </th>
+            <th>
+                Beauty Service
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppointmentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Employee.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BeautyService.Title)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.AppointmentID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.AppointmentID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.AppointmentID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
